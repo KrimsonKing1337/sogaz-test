@@ -1,0 +1,24 @@
+.Layout {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--layout-gap);
+}
+
+.Automatic {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--layout-min-item-width)), 1fr));
+}
+
+.Fixed {
+  grid-template-columns: repeat(var(--layout-columns), minmax(0, 1fr));
+
+  > .Item {
+    grid-column: span var(--layout-span);
+    grid-row: span var(--layout-row-span);
+  }
+}
+
+.Item {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}

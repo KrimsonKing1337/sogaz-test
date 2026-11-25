@@ -1,0 +1,43 @@
+.Header {
+  background: #fff;
+  border-block-end: 1px solid #d7dfef;
+}
+
+.Nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  max-inline-size: 68rem;
+  margin-inline: auto;
+  padding: 0.75rem clamp(0.75rem, 3vw, 2rem);
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.5rem;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    color: #152149;
+    font-weight: 600;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+
+    &:hover {
+      background: #f4f5f8;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #184de5;
+      outline-offset: 2px;
+    }
+
+    &:global {
+      &.active {
+        border-color: currentColor;
+        color: #184de5;
+        background: #eef3ff;
+      }
+    }
+  }
+}

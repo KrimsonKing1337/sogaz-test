@@ -1,0 +1,463 @@
+.Combobox {
+  --text-color: #152149;
+  --accent-color: #184de5;
+  --border-color: #687696;
+
+  width: 100%;
+  max-width: 22rem;
+  color: var(--text-color);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.Anchor {
+  position: relative;
+}
+
+.Control {
+  --control-padding-left: 0.625rem;
+  --control-padding-right: 0.5rem;
+  --button-size: 2rem;
+  --rail-line-size: 1.5rem;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 4.75rem;
+  // заложил учитывание направление письма на будущее
+  padding-inline: var(--control-padding-left) var(--control-padding-right);
+  background: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+
+  &:has(.Input:focus-visible) {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+  }
+
+  &.isInvalid {
+    border-color: #9e2942;
+  }
+
+  &.isUnavailable {
+    background: #f4f5f8;
+  }
+}
+
+.Label {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: calc(var(--control-padding-left) + 0.125rem);
+  right: calc(var(--control-padding-right) + var(--button-size) + 0.375rem);
+  color: #5d6680;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  cursor: text;
+  overflow-wrap: anywhere;
+  transform: translateY(-50%);
+  transition: transform 140ms ease-out;
+
+  &.hasValue,
+  .Control:has(.Input:focus) & {
+    right: var(--control-padding-right);
+    overflow: hidden;
+    font-size: 0.75rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transform: translateY(calc(-100% - var(--rail-line-size) / 2 - 0.25rem));
+  }
+
+  .isUnavailable & {
+    cursor: default;
+  }
+}
+
+.Rail {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: var(--rail-line-size);
+}
+
+.ChipsAndInput {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  container-type: inline-size;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  padding-bottom: 0.5rem;
+  padding-left: 0.125rem;
+  padding-right: 0.125rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+
+  &:has(.Chip) {
+    scrollbar-color: #8a95af transparent;
+
+    &:focus-within {
+      scrollbar-color: var(--border-color) transparent;
+    }
+  }
+}
+
+.Chips {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.25rem;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.Chip {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  max-width: min(12rem, 100cqi);
+  min-height: var(--rail-line-size);
+  padding-left: 0.5rem;
+  border-radius: 0.375rem;
+  background-color: rgb(24 77 229 / 9%);
+  font-size: 0.75rem;
+  line-height: 1rem;
+
+  &:has(.ChipRemove:focus-visible) {
+    outline: 2px solid var(--accent-color);
+    outline-offset: -2px;
+  }
+}
+
+.ChipLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.Button,
+.ChipRemove {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--text-color);
+  border: 0;
+  cursor: pointer;
+  transition: background-color 100ms ease-out;
+
+  &:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: -2px;
+  }
+
+  &:disabled {
+    color: var(--border-color);
+    cursor: default;
+  }
+
+  svg path {
+    fill: currentColor;
+  }
+}
+
+.ChipRemove {
+  min-width: 1.5rem;
+  min-height: var(--rail-line-size);
+  border-radius: 0.375rem;
+
+  svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+}
+
+.Input {
+  flex: 1 0 auto;
+  width: 6rem;
+  min-width: min(6rem, 100cqi);
+  max-width: 100cqi;
+  min-height: var(--rail-line-size);
+  background: transparent;
+  color: inherit;
+  border: none;
+  font: inherit;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled {
+    color: #5d6680;
+  }
+}
+
+.Buttons {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+.Button {
+  min-width: var(--button-size);
+  min-height: var(--button-size);
+  border-radius: 0.5rem;
+  transition: opacity 160ms ease-out;
+
+  &.isHidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &.isOpened svg {
+    rotate: 180deg;
+  }
+
+  svg {
+    width: 1.125rem;
+    height: 1.125rem;
+    transition: rotate 160ms ease-out;
+  }
+}
+
+.Popup {
+  position: absolute;
+  z-index: 2;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  right: 0;
+  background: #fff;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 1.25rem;
+  box-shadow: 0 6px 20px rgb(21 33 73 / 14%);
+  animation: appear 160ms ease-in-out;
+}
+
+.List {
+  max-height: min(15.25rem, 45dvh);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding: 0.25rem;
+  list-style: none;
+  border-radius: inherit;
+}
+
+.List::-webkit-scrollbar {
+  height: 5px;
+}
+
+.List::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.List::-webkit-scrollbar-thumb {
+  background-color: #8a95af;
+  border-radius: 3px;
+}
+
+.Option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  padding: 0.375rem 0.5rem;
+  border-radius: 0.875rem;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+  transition: background-color 100ms ease-out;
+
+  &[aria-selected='true'] {
+    background-color: rgb(24 77 229 / 9%);
+    transition: none;
+  }
+
+  &[aria-disabled='true'] {
+    color: #5d6680;
+    cursor: not-allowed;
+  }
+
+  &.isActive {
+    outline: 2px solid var(--accent-color);
+    outline-offset: -2px;
+    transition: none;
+  }
+}
+
+.Check {
+  display: flex;
+  flex: 0 0 1.125rem;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-color);
+
+  svg {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  svg path {
+    stroke: currentColor;
+  }
+}
+
+@media (hover: hover) {
+  .ChipsAndInput:has(.Chip):hover {
+    scrollbar-color: var(--border-color) transparent;
+  }
+
+  .Button:not(:disabled):hover,
+  .ChipRemove:not(:disabled):hover,
+  .Option[aria-selected='false']:not([aria-disabled='true']):hover {
+    background-color: rgb(24 77 229 / 6%);
+  }
+}
+
+.Button:not(:disabled):active,
+.ChipRemove:not(:disabled):active,
+.Option[aria-selected]:not([aria-disabled='true']):active {
+  background-color: rgb(24 77 229 / 11%);
+  transition: none;
+}
+
+.Empty {
+  padding: 0.625rem 0.75rem;
+}
+
+.Message,
+.Error,
+.PopupLimit {
+  padding-inline: 0.75rem;
+  overflow-wrap: anywhere;
+}
+
+.Message {
+  margin-block-start: 0.375rem;
+}
+
+.Error {
+  margin-block-end: 0.375rem;
+  color: #9e2942;
+}
+
+.PopupLimit {
+  padding-block: 0.375rem 0.5rem;
+  border-block-start: 1px solid var(--border-color);
+}
+
+@keyframes appear {
+  from {
+    opacity: 0.65;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.Loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: spin 1.25s linear infinite;
+}
+
+.Hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-contrast: more) {
+  .Combobox {
+    --border-color: var(--text-color);
+  }
+}
+
+@supports not (scrollbar-color: auto) {
+  .ChipsAndInput::-webkit-scrollbar {
+    height: 5px;
+  }
+
+  .ChipsAndInput:has(.Chip)::-webkit-scrollbar-thumb {
+    background-color: #8a95af;
+    border-radius: 3px;
+  }
+
+  .ChipsAndInput:has(.Chip):focus-within::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+  }
+
+  @media (hover: hover) {
+    .ChipsAndInput:has(.Chip):hover::-webkit-scrollbar-thumb {
+      background-color: var(--border-color);
+    }
+  }
+}
+
+@media (forced-colors: active) {
+  .ChipsAndInput,
+  .ChipsAndInput:has(.Chip):is(:hover, :focus-within) {
+    scrollbar-color: auto;
+  }
+
+  .Control,
+  .Popup {
+    border: 1px solid CanvasText;
+  }
+
+  .Chip {
+    outline: 1px solid CanvasText;
+    outline-offset: -1px;
+  }
+
+  .Option[aria-selected='true'] .Check {
+    color: Highlight;
+  }
+
+  .Control:has(.Input:focus-visible),
+  .Chip:has(.ChipRemove:focus-visible),
+  .Button:focus-visible,
+  .ChipRemove:focus-visible,
+  .Option.isActive {
+    outline-color: Highlight;
+  }
+
+  .Option[aria-disabled='true'],
+  .Button:disabled,
+  .ChipRemove:disabled {
+    color: GrayText;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .Label,
+  .Button,
+  .Button svg,
+  .ChipRemove,
+  .Option {
+    transition: none;
+  }
+
+  .Popup,
+  .Loader {
+    animation: none;
+  }
+}
